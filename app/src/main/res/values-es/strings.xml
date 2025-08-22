@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start">Empezar</string>
+    <string name="back">Atras</string>
+    <string name="return_str">Volver</string>
+</resources>
