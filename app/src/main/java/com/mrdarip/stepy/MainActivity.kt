@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.mrdarip.stepy.navigation.StepyNavigation
+import com.mrdarip.stepy.ui.navigation.StepyNavigation
 import com.mrdarip.stepy.ui.theme.StepyTheme
 
 class MainActivity : ComponentActivity() {

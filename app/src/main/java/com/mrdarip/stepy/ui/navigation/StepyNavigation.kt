@@ -1,13 +1,12 @@
-package com.mrdarip.stepy.navigation
+package com.mrdarip.stepy.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mrdarip.stepy.screens.TestScreen
-import com.mrdarip.stepy.screens.HomeScreen
+import com.mrdarip.stepy.ui.screens.home.HomeScreen
+import com.mrdarip.stepy.ui.screens.sample.TestScreen
 
 @Composable
 fun StepyNavigation(

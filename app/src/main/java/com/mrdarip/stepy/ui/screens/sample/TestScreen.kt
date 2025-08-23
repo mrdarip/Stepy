@@ -1,4 +1,4 @@
-package com.mrdarip.stepy.screens
+package com.mrdarip.stepy.ui.screens.sample
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +20,8 @@ import com.mrdarip.stepy.R
 import com.mrdarip.stepy.ui.theme.StepyTheme
 
 @Composable
-fun HomeScreen(
-    onNavigateToDetails: () -> Unit,
+fun TestScreen(
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -32,7 +32,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.app_name),
+            text = "${stringResource(R.string.app_name)} 2",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -40,26 +40,26 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
         
         Text(
-            text = stringResource(R.string.lorem),
+            text = "2 ${stringResource(R.string.lorem)}",
             style = MaterialTheme.typography.bodyLarge
         )
-        
+
         Spacer(modifier = Modifier.height(32.dp))
         
         Button(
-            onClick = onNavigateToDetails
+            onClick = onNavigateBack
         ) {
-            Text(stringResource(R.string.start))
+            Text(stringResource(R.string.back))
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun DetailsScreenPreview() {
     StepyTheme {
-        HomeScreen(
-            onNavigateToDetails = { }
+        TestScreen(
+            onNavigateBack = { }
         )
     }
 }
