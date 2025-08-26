@@ -6,7 +6,7 @@ import androidx.room.Index
 
 
 @Entity(
-    primaryKeys = ["routineId", "stepId"],
+    primaryKeys = ["routineId", "taskId"],
     foreignKeys = [
         ForeignKey(
             entity = RoutineEntity::class,
@@ -21,7 +21,7 @@ import androidx.room.Index
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("routineId"), Index("stepId")]
+    indices = [Index("routineId"), Index("taskId")]
 )
 data class RoutineTaskCR(
     val routineId: Int,
