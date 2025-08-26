@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.mrdarip.stepy.ui.screens.execution.ExecutionScreen
 import com.mrdarip.stepy.ui.screens.home.HomeScreen
 import com.mrdarip.stepy.ui.screens.sample.TestScreen
 
@@ -21,7 +22,7 @@ fun StepyNavigation(
         composable(AppScreen.Home.route) {
             HomeScreen(
                 onNavigateToDetails = {
-                    navController.navigate(AppScreen.Test.route)
+                    navController.navigate(AppScreen.Execution.route)
                 }
             )
         }
@@ -31,6 +32,12 @@ fun StepyNavigation(
                 onNavigateBack = {
                     navController.popBackStack()
                 }
+            )
+        }
+
+        composable(AppScreen.Execution.route) {
+            ExecutionScreen(
+                navController = navController
             )
         }
     }
