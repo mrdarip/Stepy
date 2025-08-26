@@ -22,7 +22,10 @@ import androidx.room.PrimaryKey
         )
 
     ],
-    indices = [Index(value = ["parentExecutionId", "position"], unique = true)]
+    indices = [
+        Index(value = ["parentExecutionId", "position"], unique = true),
+        Index(value = ["parentRoutineId"])
+    ]
 )
 data class ExecutionEntity(
     @PrimaryKey(true) val id: Int = 0,
