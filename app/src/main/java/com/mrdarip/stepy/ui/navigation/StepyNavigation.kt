@@ -1,5 +1,6 @@
 package com.mrdarip.stepy.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -21,16 +22,22 @@ fun StepyNavigation(
         composable<HomeRoute> { backStackEntry ->
             HomeScreen(
                 onExecuteTaskClick = { task ->
+                    Log.d("HomeScreen", "onExecuteTaskClick: $task")
                     navController.navigate(ExecuteTaskRoute.fromTask(task))
                 }
             )
         }
 
         composable<ExecuteTaskRoute> { backStackEntry ->
+            Log.d("StepyNavigation", "composable: ${backStackEntry.arguments}")
+            val taskToExecute = ExecuteTaskRoute.fromBackStackEntry(backStackEntry)
+            if (taskToExecute == null) return@composable
+
             ExecutionScreen(
                 onBackClicked = {
                     navController.popBackStack()
-                }
+                },
+                taskToExecute = taskToExecute.toTask()
             )
         }
     }
