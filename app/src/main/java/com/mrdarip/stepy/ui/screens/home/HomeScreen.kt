@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mrdarip.stepy.R
+import com.mrdarip.stepy.ui.navigation.ExecuteTaskRoute
 import com.mrdarip.stepy.ui.screens.home.viewmodel.HomeViewModel
 import com.mrdarip.stepy.ui.theme.StepyTheme
 
@@ -53,7 +54,7 @@ fun HomeScreen(
             items(tasks) { task ->
                 Button(
                     onClick = {
-                        navController.navigate("execution")
+                        navController.navigate(ExecuteTaskRoute.fromTask(task))
                     }
                 ) {
                     Text(task.name)
