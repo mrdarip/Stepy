@@ -20,13 +20,17 @@ fun StepyNavigation(
     ) {
         composable<HomeRoute> { backStackEntry ->
             HomeScreen(
-                navController = navController
+                onExecuteTaskClick = { task ->
+                    navController.navigate(ExecuteTaskRoute.fromTask(task))
+                }
             )
         }
 
         composable<ExecuteTaskRoute> { backStackEntry ->
             ExecutionScreen(
-                navController = navController
+                onBackClicked = {
+                    navController.popBackStack()
+                }
             )
         }
     }

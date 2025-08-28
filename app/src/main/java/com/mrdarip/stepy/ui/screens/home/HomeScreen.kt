@@ -16,21 +16,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.mrdarip.stepy.R
-import com.mrdarip.stepy.ui.navigation.ExecuteTaskRoute
+import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.screens.home.viewmodel.HomeViewModel
 import com.mrdarip.stepy.ui.theme.StepyTheme
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(), navController: NavController
+    viewModel: HomeViewModel = hiltViewModel(), onExecuteTaskClick: (Task) -> Unit
 ) {
 
     val tasks by viewModel.tasks.collectAsState()
@@ -53,9 +51,7 @@ fun HomeScreen(
         LazyRow {
             items(tasks) { task ->
                 Button(
-                    onClick = {
-                        navController.navigate(ExecuteTaskRoute.fromTask(task))
-                    }
+                    onClick = { onExecuteTaskClick(task) }
                 ) {
                     Text(task.name)
                 }
@@ -69,8 +65,9 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     StepyTheme {
         HomeScreen(
-            navController = NavController(LocalContext.current)
-
+            onExecuteTaskClick = { task ->
+                println("Task clicked: ${task.name}")
+            }
         )
     }
 }
