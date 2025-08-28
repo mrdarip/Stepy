@@ -21,9 +21,7 @@ fun StepyNavigation(
     ) {
         composable(AppScreen.Home.route) {
             HomeScreen(
-                onNavigateToDetails = {
-                    navController.navigate(AppScreen.Execution.route)
-                }
+                navController = navController
             )
         }
         
