@@ -47,4 +47,11 @@ class HomeViewModel @Inject constructor(
             loadTasks()
         }
     }
+
+    fun addRoutine(name: String) {
+        viewModelScope.launch {
+            routineRepository.addRoutine(Routine(name = name))
+            loadRoutines()
+        }
+    }
 }
