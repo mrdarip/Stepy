@@ -40,31 +40,48 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Build Debug and Run Tests
+      run: |
+        ./gradlew assembleDebug
+        ./gradlew test
 
-    - name: Run tests
-      run: ./gradlew test
+    - name: Decode Keystore
+      if: github.ref_type == 'branch' && github.event_name == 'push' && github.repository == 'mrdarip/Stepy'
+      run: |
+        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/release.keystore
 
-    - name: Build Release APK
+    - name: Build Signed Release APK
+      if: github.ref_type == 'branch' && github.event_name == 'push' && github.repository == 'mrdarip/Stepy'
+      env:
+        KEYSTORE_FILE: release.keystore
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: ./gradlew assembleRelease
 
-    - name: Upload APK artifact
+    - name: Upload Signed Release APK artifact
+      if: github.ref_type == 'branch' && github.event_name == 'push' && github.repository == 'mrdarip/Stepy'
       uses: actions/upload-artifact@v4
       with:
-        name: app-release-apk
+        name: app-release-signed-apk
         path: app/build/outputs/apk/release/*.apk
+
+    - name: Upload Debug APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug-apk
+        path: app/build/outputs/apk/debug/*.apk
 
   deploy:
     name: Deploy to GitHub Release
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref_type == 'branch' && github.event_name == 'push'
+    if: github.ref_type == 'branch' && github.event_name == 'push' && github.repository == 'mrdarip/Stepy'
     steps:
-    - name: Download APK artifact
+    - name: Download Signed APK artifact
       uses: actions/download-artifact@v4
       with:
-        name: app-release-apk
+        name: app-release-signed-apk
         path: ./release-apk
 
     - name: Create/Update GitHub Release
