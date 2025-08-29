@@ -32,6 +32,7 @@ fun HomeScreen(
 ) {
 
     val tasks by viewModel.tasks.collectAsState()
+    val routines by viewModel.routines.collectAsState()
 
     Column(
         modifier = Modifier
@@ -54,6 +55,18 @@ fun HomeScreen(
                     onClick = { onExecuteTaskClick(task) }
                 ) {
                     Text(task.name)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        LazyRow {
+            items(routines) { routine ->
+                Button(
+                    onClick = { }
+                ) {
+                    Text(routine.name)
                 }
             }
         }
