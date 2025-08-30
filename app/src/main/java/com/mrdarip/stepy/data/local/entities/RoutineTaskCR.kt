@@ -21,7 +21,8 @@ import androidx.room.Index
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("routineId"), Index("taskId")]
+    indices = [Index("routineId"), Index("taskId")],
+    tableName = "routine_tasks_cr"
 )
 data class RoutineTaskCR(
     val routineId: Int,
