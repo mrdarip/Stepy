@@ -46,4 +46,8 @@ class ExecutionViewModel @Inject constructor(
             _steps.value = taskRepository.getStepsOfTask(taskId)
         }
     }
+
+    fun completeStep(step: Step) {
+        _steps.value = _steps.value.filter { it != step }
+    }
 }

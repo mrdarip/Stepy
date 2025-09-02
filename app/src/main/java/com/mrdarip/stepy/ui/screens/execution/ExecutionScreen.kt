@@ -3,6 +3,7 @@ package com.mrdarip.stepy.ui.screens.execution
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,9 +31,21 @@ fun ExecutionScreen(
         Column {
             Text(text = "Task to execute: ${task?.name}")
 
-            Text(text = "Steps: ${steps.size}")
-            steps.forEach {
-                Text(text = it.name)
+            Button(
+                onClick = {
+                    steps.isNotEmpty().let {
+                        viewModel.completeStep(steps.first())
+                    }
+                },
+                enabled = steps.isNotEmpty()
+            ) {
+                Text(text = "Complete Step")
+            }
+
+            steps.forEach { step ->
+                Button(onClick = { viewModel.completeStep(step) }) {
+                    Text(text = step.name)
+                }
             }
         }
     }
