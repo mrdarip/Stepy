@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.mrdarip.stepy.data.local.entities.StepEntity
 import com.mrdarip.stepy.data.local.entities.TaskEntity
 
 @Dao
@@ -17,4 +18,6 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :id")
     suspend fun getTaskById(id: Int): TaskEntity
 
+    @Query("SELECT * FROM steps WHERE taskId = :taskId")
+    suspend fun getStepsOfTask(taskId: Int): List<StepEntity>
 }

@@ -5,17 +5,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
 
 @Composable
 fun ExecutionScreen(
-    viewModel: ExecutionViewModel = hiltViewModel(), onBackClicked: () -> Unit, taskToExecute: Task
+    viewModel: ExecutionViewModel = hiltViewModel(), onBackClicked: () -> Unit
 ) {
+    val task by viewModel.task.collectAsState()
+    val steps by viewModel.steps.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -24,7 +28,12 @@ fun ExecutionScreen(
         BackButton(onBackClicked)
 
         Column {
-            Text(text = "Task to execute: ${taskToExecute.name}")
+            Text(text = "Task to execute: ${task?.name}")
+
+            Text(text = "Steps: ${steps.size}")
+            steps.forEach {
+                Text(text = it.name)
+            }
         }
     }
 }

@@ -28,14 +28,10 @@ fun StepyNavigation(
         }
 
         composable<ExecuteTaskRoute> { backStackEntry ->
-            val taskToExecute = ExecuteTaskRoute.fromBackStackEntry(backStackEntry)
-            if (taskToExecute == null) return@composable
-
             ExecutionScreen(
                 onBackClicked = {
                     navController.popBackStack()
-                },
-                taskToExecute = taskToExecute.toTask()
+                }
             )
         }
 
