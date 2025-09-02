@@ -63,34 +63,13 @@ data class ExecuteRoutineRoute(
 
 @Serializable
 data class TaskDetailRoute(
-    val id: Int,
-    val name: String
+    val taskId: Int
 ) {
-
-    fun toTask(): Task {
-        return Task(
-            id = this.id,
-            name = this.name
-        )
-    }
 
     companion object {
         fun fromTask(task: Task): TaskDetailRoute {
             return TaskDetailRoute(
-                id = task.id,
-                name = task.name
-            )
-        }
-
-        fun fromBackStackEntry(backStackEntry: NavBackStackEntry): TaskDetailRoute? {
-            val name = backStackEntry.arguments?.getString("name")
-            val id = backStackEntry.arguments?.getInt("id")
-
-            if (name == null || id == null) return null
-
-            return TaskDetailRoute(
-                id = id,
-                name = name
+                taskId = task.id,
             )
         }
     }

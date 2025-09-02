@@ -11,6 +11,5 @@ class DetailsViewModel @Inject constructor(
     private val repository: TaskRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    val taskId = savedStateHandle.get<Int>("id")
-
+    val taskId = savedStateHandle.get<Int>("taskId")
 }
