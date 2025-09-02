@@ -18,6 +18,6 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :id")
     suspend fun getTaskById(id: Int): TaskEntity
 
-    @Query("SELECT * FROM steps WHERE taskId = :taskId")
+    @Query("SELECT * FROM steps WHERE taskId = :taskId ORDER BY position ASC")
     suspend fun getStepsOfTask(taskId: Int): List<StepEntity>
 }
