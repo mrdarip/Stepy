@@ -43,6 +43,12 @@ fun StepyNavigation(
             DetailsScreen(
                 onBackClicked = {
                     navController.popBackStack()
+                },
+                onExecuteTaskClick = { task ->
+                    navController.navigate(ExecuteTaskRoute.fromTask(task))
+                },
+                onEditTaskClick = { task ->
+                    TODO()
                 }
             )
         }

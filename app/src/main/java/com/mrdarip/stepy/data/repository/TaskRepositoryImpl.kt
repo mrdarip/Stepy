@@ -17,4 +17,8 @@ class TaskRepositoryImpl(
     override suspend fun addTask(task: Task) {
         taskDao.insertTask(task.toEntity())
     }
+
+    override suspend fun getTask(id: Int): Task {
+        return taskDao.getTaskById(id).toDomain()
+    }
 }
