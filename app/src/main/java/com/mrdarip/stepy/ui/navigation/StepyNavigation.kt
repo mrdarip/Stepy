@@ -31,6 +31,9 @@ fun StepyNavigation(
             ExecutionScreen(
                 onBackClicked = {
                     navController.popBackStack()
+                },
+                onFinish = {
+                    navController.navigate(HomeRoute)
                 }
             )
         }

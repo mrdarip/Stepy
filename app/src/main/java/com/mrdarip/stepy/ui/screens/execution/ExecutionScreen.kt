@@ -18,7 +18,7 @@ import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
 
 @Composable
 fun ExecutionScreen(
-    viewModel: ExecutionViewModel = hiltViewModel(), onBackClicked: () -> Unit
+    viewModel: ExecutionViewModel = hiltViewModel(), onBackClicked: () -> Unit, onFinish: () -> Unit
 ) {
     val task by viewModel.task.collectAsState()
     val steps by viewModel.steps.collectAsState()
@@ -44,7 +44,7 @@ fun ExecutionScreen(
             Button(
                 onClick = {
                     currentStep?.let {
-                        viewModel.completeStep(currentStep)
+                        viewModel.completeStep(currentStep, onFinish)
                     }
                 },
                 enabled = currentStep != null

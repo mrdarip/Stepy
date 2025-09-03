@@ -47,7 +47,11 @@ class ExecutionViewModel @Inject constructor(
         }
     }
 
-    fun completeStep(step: Step) {
+    fun completeStep(step: Step, onFinish: () -> Unit) {
         _steps.value = _steps.value.filter { it != step }
+
+        if (_steps.value.isEmpty()) {
+            onFinish()
+        }
     }
 }
