@@ -6,6 +6,6 @@ data class Execution(
     val parentExecutionId: Int?,
     val stepId: Int,
     val position: Int,
-    val start: Int,
-    val end: Int
+    val start: Long,
+    val end: Long
 )

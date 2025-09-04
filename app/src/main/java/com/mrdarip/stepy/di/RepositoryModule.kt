@@ -1,9 +1,12 @@
 package com.mrdarip.stepy.di
 
+import com.mrdarip.stepy.data.local.dao.ExecutionDao
 import com.mrdarip.stepy.data.local.dao.RoutineDao
 import com.mrdarip.stepy.data.local.dao.TaskDao
+import com.mrdarip.stepy.data.repository.ExecutionRepositoryImpl
 import com.mrdarip.stepy.data.repository.RoutineRepositoryImpl
 import com.mrdarip.stepy.data.repository.TaskRepositoryImpl
+import com.mrdarip.stepy.domain.repository.ExecutionRepository
 import com.mrdarip.stepy.domain.repository.RoutineRepository
 import com.mrdarip.stepy.domain.repository.TaskRepository
 import dagger.Module
@@ -26,5 +29,11 @@ object RepositoryModule {
     @Singleton
     fun provideRoutineRepository(routineDao: RoutineDao): RoutineRepository {
         return RoutineRepositoryImpl(routineDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExecutionRepository(executionDao: ExecutionDao): ExecutionRepository {
+        return ExecutionRepositoryImpl(executionDao)
     }
 }
