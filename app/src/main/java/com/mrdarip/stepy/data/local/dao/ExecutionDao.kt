@@ -8,5 +8,5 @@ import com.mrdarip.stepy.data.local.entities.ExecutionEntity
 @Dao
 interface ExecutionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertExecution(execution: ExecutionEntity)
+    suspend fun insertExecution(execution: ExecutionEntity): Long
 }

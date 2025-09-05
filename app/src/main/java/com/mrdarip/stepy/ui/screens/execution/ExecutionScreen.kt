@@ -22,6 +22,7 @@ fun ExecutionScreen(
 ) {
     val task by viewModel.task.collectAsState()
     val steps by viewModel.steps.collectAsState()
+    val currentExecution by viewModel.currentExecution.collectAsState()
 
     val currentStep = steps.firstOrNull()
 
@@ -44,10 +45,10 @@ fun ExecutionScreen(
             Button(
                 onClick = {
                     currentStep?.let {
-                        viewModel.completeStep(currentStep, onFinish)
+                        viewModel.completeExecution(onFinish)
                     }
                 },
-                enabled = currentStep != null
+                enabled = currentExecution != null
             ) {
                 Text(text = "Complete Step")
             }

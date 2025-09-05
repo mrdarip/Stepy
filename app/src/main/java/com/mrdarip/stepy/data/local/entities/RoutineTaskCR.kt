@@ -25,6 +25,6 @@ import androidx.room.Index
     tableName = "routine_tasks_cr"
 )
 data class RoutineTaskCR(
-    val routineId: Int,
+    val routineId: Long,
     val taskId: Int
 )

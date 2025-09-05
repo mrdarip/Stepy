@@ -10,8 +10,8 @@ import com.mrdarip.stepy.domain.repository.ExecutionRepository
 class ExecutionRepositoryImpl(
     private val executionDao: ExecutionDao
 ) : ExecutionRepository {
-    override suspend fun addExecution(execution: Execution) {
-        executionDao.insertExecution(execution.toEntity())
+    override suspend fun addExecution(execution: Execution): Long {
+        return executionDao.insertExecution(execution.toEntity())
     }
 
     override fun createExecutionNow(

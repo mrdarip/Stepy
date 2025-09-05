@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["taskId", "position"], unique = true)]
 )
 data class StepEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
     val position: Int,
     val taskId: Int

@@ -5,7 +5,7 @@ import com.mrdarip.stepy.domain.model.Routine
 import com.mrdarip.stepy.domain.model.Step
 
 interface ExecutionRepository {
-    suspend fun addExecution(execution: Execution)
+    suspend fun addExecution(execution: Execution): Long
     fun createExecutionNow(
         step: Step,
         parentExecution: Execution? = null,

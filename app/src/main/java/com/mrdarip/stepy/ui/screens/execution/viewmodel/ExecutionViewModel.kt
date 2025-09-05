@@ -34,6 +34,7 @@ class ExecutionViewModel @Inject constructor(
     val steps: StateFlow<List<Step>> = _steps
 
     private val _currentExecution = MutableStateFlow<Execution?>(null)
+    val currentExecution: StateFlow<Execution?> = _currentExecution
 
     init {
         loadTask(_taskId)
@@ -58,13 +59,24 @@ class ExecutionViewModel @Inject constructor(
         }
     }
 
-    fun completeStep(step: Step, onFinish: () -> Unit) {
-        _steps.value = _steps.value.filter { it != step }
+    fun completeExecution(onFinish: () -> Unit) {
+        _steps.value = _steps.value.drop(1)
+
+        val completedExecution = _currentExecution.value!!.copy(
+            end = System.currentTimeMillis() / 1000L
+        )
 
         viewModelScope.launch {
-            executionRepository.addExecution(
-                _currentExecution.value!!
+            val lastExecutionId = executionRepository.addExecution(
+                completedExecution
             )
+
+            if (_steps.value.isNotEmpty()) {
+                _currentExecution.value = executionRepository.createExecutionNow(
+                    step = _steps.value.first(),
+                    parentExecution = completedExecution.copy(id = lastExecutionId)
+                )
+            }
         }
 
         if (_steps.value.isEmpty()) {

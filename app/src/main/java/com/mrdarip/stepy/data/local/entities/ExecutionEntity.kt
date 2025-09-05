@@ -28,10 +28,10 @@ import androidx.room.PrimaryKey
     ]
 )
 data class ExecutionEntity(
-    @PrimaryKey(true) val id: Int = 0,
-    val parentRoutineId: Int?,
-    val parentExecutionId: Int?,
-    val stepId: Int,
+    @PrimaryKey(true) val id: Long = 0,
+    val parentRoutineId: Long?,
+    val parentExecutionId: Long?,
+    val stepId: Long,
     val position: Int,
     val start: Long,
     val end: Long,

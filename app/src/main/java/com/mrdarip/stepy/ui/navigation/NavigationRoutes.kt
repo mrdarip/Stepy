@@ -9,7 +9,7 @@ data object HomeRoute
 
 @Serializable
 data class ExecuteTaskRoute(
-    val taskId: Int
+    val taskId: Long
 ) {
     companion object {
         fun fromTask(task: Task): ExecuteTaskRoute {
@@ -22,7 +22,7 @@ data class ExecuteTaskRoute(
 
 @Serializable
 data class ExecuteRoutineRoute(
-    val id: Int,
+    val id: Long,
     val name: String
 ) {
     companion object {
@@ -37,7 +37,7 @@ data class ExecuteRoutineRoute(
 
 @Serializable
 data class TaskDetailRoute(
-    val taskId: Int
+    val taskId: Long
 ) {
 
     companion object {
