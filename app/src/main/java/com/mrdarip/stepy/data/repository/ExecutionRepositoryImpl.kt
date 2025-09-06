@@ -20,7 +20,7 @@ class ExecutionRepositoryImpl(
         routine: Routine?
     ): Execution {
         return Execution(
-            parentExecutionId = parentExecution?.id,
+            parentExecutionId = parentExecution?.parentExecutionId ?: parentExecution?.id,
             stepId = step.id,
             position = step.position,
             start = System.currentTimeMillis() / 1000L,
