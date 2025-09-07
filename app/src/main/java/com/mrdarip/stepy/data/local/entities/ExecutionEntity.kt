@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "entities",
+    tableName = "executions",
     foreignKeys = [
         ForeignKey(
             entity = ExecutionEntity::class,
