@@ -54,7 +54,9 @@ fun StepyNavigation(
         }
 
         composable<EditTaskRoute> { backStackEntry ->
-            EditScreen()
+            EditScreen(
+                onExit = { navController.popBackStack() }
+            )
         }
     }
 }

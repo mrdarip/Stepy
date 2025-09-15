@@ -8,5 +8,5 @@ interface TaskRepository {
     suspend fun addTask(task: Task)
     suspend fun getTask(id: Int): Task
     suspend fun getStepsOfTask(taskId: Int): List<Step>
-
+    suspend fun upsertTask(task: Task)
 }

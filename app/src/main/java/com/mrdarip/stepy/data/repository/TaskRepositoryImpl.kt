@@ -26,4 +26,8 @@ class TaskRepositoryImpl(
     override suspend fun getStepsOfTask(taskId: Int): List<Step> {
         return taskDao.getStepsOfTask(taskId).map { it.toDomain() }
     }
+
+    override suspend fun upsertTask(task: Task) {
+        taskDao.upsertTask(task.toEntity())
+    }
 }

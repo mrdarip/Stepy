@@ -4,12 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.mrdarip.stepy.data.local.entities.StepEntity
 import com.mrdarip.stepy.data.local.entities.TaskEntity
 
 @Dao
 interface TaskDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertTask(step: TaskEntity)
 
     @Query("SELECT * FROM tasks")
@@ -20,4 +21,7 @@ interface TaskDao {
 
     @Query("SELECT * FROM steps WHERE taskId = :taskId ORDER BY position ASC")
     suspend fun getStepsOfTask(taskId: Int): List<StepEntity>
+
+    @Upsert
+    suspend fun upsertTask(task: TaskEntity)
 }
