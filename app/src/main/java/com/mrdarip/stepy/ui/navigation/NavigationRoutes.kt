@@ -48,3 +48,16 @@ data class TaskDetailRoute(
         }
     }
 }
+
+@Serializable
+data class EditTaskRoute(
+    val taskId: Long
+) {
+    companion object {
+        fun fromTask(task: Task): EditTaskRoute {
+            return EditTaskRoute(
+                taskId = task.id
+            )
+        }
+    }
+}

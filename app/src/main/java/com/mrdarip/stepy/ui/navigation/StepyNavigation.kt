@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mrdarip.stepy.ui.screens.details.DetailsScreen
+import com.mrdarip.stepy.ui.screens.edit.EditScreen
 import com.mrdarip.stepy.ui.screens.execution.ExecutionScreen
 import com.mrdarip.stepy.ui.screens.home.HomeScreen
 
@@ -47,9 +48,13 @@ fun StepyNavigation(
                     navController.navigate(ExecuteTaskRoute.fromTask(task))
                 },
                 onEditTaskClick = { task ->
-                    TODO()
+                    navController.navigate(EditTaskRoute.fromTask(task))
                 }
             )
+        }
+
+        composable<EditTaskRoute> { backStackEntry ->
+            EditScreen()
         }
     }
 }
