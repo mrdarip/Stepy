@@ -34,7 +34,10 @@ fun EditScreen(
                 Text("Exit")
             }
 
-            Button(onClick = { viewModel.saveTask() }) {
+            Button(onClick = {
+                viewModel.saveTask()
+                onExit()
+            }) {
                 Text("Save")
             }
         }
