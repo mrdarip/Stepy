@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.screens.details.viewmodel.DetailsViewModel
@@ -30,6 +31,11 @@ fun DetailsScreen(
     onExecuteTaskClick: (Task) -> Unit,
     onEditTaskClick: (Task) -> Unit
 ) {
+    LifecycleResumeEffect(Unit) {
+        viewModel.loadTask()
+        onPauseOrDispose { }
+    }
+
     val task by viewModel.task.collectAsState()
     Column(
         modifier = Modifier

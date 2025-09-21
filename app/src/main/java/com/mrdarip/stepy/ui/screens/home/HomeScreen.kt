@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.mrdarip.stepy.R
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.screens.home.viewmodel.HomeViewModel
@@ -36,6 +37,10 @@ import com.mrdarip.stepy.ui.theme.StepyTheme
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(), onExecuteTaskClick: (Task) -> Unit
 ) {
+    LifecycleResumeEffect(Unit) {
+        viewModel.loadTasks()
+        onPauseOrDispose { }
+    }
 
     val tasks by viewModel.tasks.collectAsState()
     val routines by viewModel.routines.collectAsState()

@@ -28,7 +28,7 @@ class DetailsViewModel @Inject constructor(
         loadTask()
     }
 
-    private fun loadTask() {
+    fun loadTask() {
         viewModelScope.launch {
             _task.value = taskRepository.getTask(taskId)
         }
