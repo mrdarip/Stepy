@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrdarip.stepy.domain.model.Step
 import com.mrdarip.stepy.domain.model.Task
+import com.mrdarip.stepy.domain.repository.StepRepository
 import com.mrdarip.stepy.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
+    private val stepRepository: StepRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     // Load Route params
@@ -49,6 +51,7 @@ class EditViewModel @Inject constructor(
     fun saveTask() {
         viewModelScope.launch {
             taskRepository.upsertTask(task.value!!)
+            stepRepository.upsertSteps(steps.value)
         }
     }
 

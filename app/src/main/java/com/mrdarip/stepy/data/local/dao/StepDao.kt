@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.mrdarip.stepy.data.local.entities.StepEntity
 
 @Dao
@@ -14,4 +15,7 @@ interface StepDao {
 
     @Query("DELETE FROM steps WHERE id = :stepId")
     suspend fun deleteStepById(stepId: Int)
+
+    @Upsert
+    suspend fun upsertSteps(steps: List<StepEntity>)
 }
