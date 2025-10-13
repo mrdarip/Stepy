@@ -17,5 +17,11 @@ interface StepDao {
     suspend fun deleteStepById(stepId: Int)
 
     @Upsert
+    suspend fun upsertStep(step: StepEntity)
+
+    @Upsert
     suspend fun upsertSteps(steps: List<StepEntity>)
+
+    @Query("UPDATE steps SET position = -position-1 WHERE taskId = :taskId")
+    suspend fun negateStepsOf(taskId: Long)
 }

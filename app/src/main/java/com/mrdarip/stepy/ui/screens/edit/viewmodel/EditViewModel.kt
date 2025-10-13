@@ -51,7 +51,7 @@ class EditViewModel @Inject constructor(
     fun saveTask() {
         viewModelScope.launch {
             taskRepository.upsertTask(task.value!!)
-            stepRepository.upsertSteps(steps.value)
+            stepRepository.rebuildTaskSteps(steps.value, task.value!!)
         }
     }
 

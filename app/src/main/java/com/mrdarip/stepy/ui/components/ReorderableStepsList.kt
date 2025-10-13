@@ -36,9 +36,11 @@ fun ReorderableStepsList(
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
-        onOrderChanged(items.toMutableList().apply {
+        val reorderedItems = items.toMutableList().apply {
             add(to.index, removeAt(from.index))
-        })
+        }.mapIndexed { index, step -> step.copy(position = index) }
+
+        onOrderChanged(reorderedItems)
 
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
     }
