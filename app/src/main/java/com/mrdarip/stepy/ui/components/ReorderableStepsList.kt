@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -62,7 +64,6 @@ fun ReorderableStepsList(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(it.name, Modifier.padding(horizontal = 8.dp))
                         IconButton(
                             modifier = Modifier.draggableHandle(
                                 onDragStarted = {
@@ -75,6 +76,19 @@ fun ReorderableStepsList(
                             onClick = {},
                         ) {
                             Icon(Icons.Rounded.Menu, contentDescription = "Reorder")
+                        }
+                        Text(it.name, Modifier.padding(horizontal = 8.dp))
+                        Row {
+                            IconButton(
+                                onClick = {},
+                            ) {
+                                Icon(Icons.Rounded.Edit, contentDescription = "Edit")
+                            }
+                            IconButton(
+                                onClick = {}
+                            ) {
+                                Icon(Icons.Rounded.Delete, contentDescription = "Delete")
+                            }
                         }
                     }
                 }
