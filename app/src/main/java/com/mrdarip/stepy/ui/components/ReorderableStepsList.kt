@@ -64,20 +64,22 @@ fun ReorderableStepsList(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        IconButton(
-                            modifier = Modifier.draggableHandle(
-                                onDragStarted = {
-                                    //hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                },
-                                onDragStopped = {
-                                    //hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                                },
-                            ),
-                            onClick = {},
-                        ) {
-                            Icon(Icons.Rounded.Menu, contentDescription = "Reorder")
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(
+                                modifier = Modifier.draggableHandle(
+                                    onDragStarted = {
+                                        //hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                    },
+                                    onDragStopped = {
+                                        //hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                                    },
+                                ),
+                                onClick = {},
+                            ) {
+                                Icon(Icons.Rounded.Menu, contentDescription = "Reorder")
+                            }
+                            Text(it.name, Modifier.padding(horizontal = 8.dp))
                         }
-                        Text(it.name, Modifier.padding(horizontal = 8.dp))
                         Row {
                             IconButton(
                                 onClick = {},
