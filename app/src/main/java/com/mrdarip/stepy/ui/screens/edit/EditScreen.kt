@@ -58,10 +58,26 @@ fun EditScreen(
             }
 
             ReorderableStepsList(
-                steps
-            ) { newSteps ->
-                viewModel.setSteps(newSteps)
-            }
+                steps,
+                onOrderChanged = { newSteps ->
+                    viewModel.setSteps(newSteps)
+                },
+                onEdit = { step, newStep ->
+                    viewModel.setSteps(
+                        steps.toMutableList().apply {
+                            set(steps.indexOf(step), newStep)
+                        }
+                    )
+
+                },
+                onDelete = { step ->
+                    viewModel.setSteps(
+                        steps.toMutableList().apply {
+                            remove(step)
+                        }
+                    )
+                }
+            )
         }
 
 
