@@ -157,14 +157,22 @@ fun ReorderableStepsList(
 @Preview
 @Composable
 private fun Preview() {
+    var items by remember {
+        mutableStateOf(
+            listOf(
+                Step(0, "item 1", 0, 0),
+                Step(1, "item 2", 1, 0),
+                Step(2, "item 3", 2, 0),
+                Step(3, "item 4", 3, 0)
+            )
+        )
+    }
+
     ReorderableStepsList(
-        items = listOf(
-            Step(0, "item 1", 0, 0),
-            Step(1, "item 2", 1, 0),
-            Step(2, "item 3", 2, 0),
-            Step(3, "item 4", 3, 0)
-        ),
-        onOrderChanged = {},
+        items = items,
+        onOrderChanged = {
+            items = it
+        },
         onEdit = { step, newStep -> },
         onDelete = {}
     )
