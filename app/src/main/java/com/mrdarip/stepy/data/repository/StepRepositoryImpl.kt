@@ -10,8 +10,20 @@ class StepRepositoryImpl(
     private val stepDao: StepDao
 ) : StepRepository {
     override suspend fun rebuildTaskSteps(steps: List<Step>, task: Task) {
-        stepDao.negateStepsOf(task.id)
+        val existingSteps = stepDao.getStepsOfTask(task.id)
 
-        stepDao.upsertSteps(steps.map { it.toEntity() })
+        val newSteps = steps.map { step ->
+            if (step.taskId != task.id) {
+                throw IllegalArgumentException("Step '${step.name}' with id ${step.id} does not belong to task '${task.name}', with id ${task.id}")
+            }
+            step.toEntity()
+        }
+
+        stepDao.upsertSteps(newSteps)
+
+        val newStepIds = newSteps.map { it.id }.toSet()
+        val unusedSteps = existingSteps.filter { it.id !in newStepIds }
+
+        stepDao.setStepsAsUnused(unusedSteps.map { it.id })
     }
 }

@@ -24,4 +24,11 @@ interface StepDao {
 
     @Query("UPDATE steps SET position = -position-1 WHERE taskId = :taskId")
     suspend fun negateStepsOf(taskId: Long)
+
+    @Query("SELECT * FROM steps WHERE taskId = :id")
+    suspend fun getStepsOfTask(id: Long): List<StepEntity>
+
+    @Query("UPDATE steps SET unused = 1 WHERE id IN (:map)")
+    suspend fun setStepsAsUnused(map: List<Long>)
+
 }
