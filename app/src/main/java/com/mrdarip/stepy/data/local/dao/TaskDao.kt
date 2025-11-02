@@ -19,7 +19,13 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :id")
     suspend fun getTaskById(id: Int): TaskEntity
 
-    @Query("SELECT * FROM steps WHERE taskId = :taskId ORDER BY position ASC")
+    /**
+     * Retrieves the active steps of a task from the database.
+     *
+     * @param taskId The ID of the task whose steps are to be retrieved.
+     * @return A list of [StepEntity] representing the active steps of the task.
+     */
+    @Query("SELECT * FROM steps WHERE taskId = :taskId AND unused = 0 ORDER BY position ASC")
     suspend fun getStepsOfTask(taskId: Int): List<StepEntity>
 
     @Upsert
