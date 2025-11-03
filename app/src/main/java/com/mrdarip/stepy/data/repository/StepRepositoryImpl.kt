@@ -12,6 +12,7 @@ class StepRepositoryImpl(
     override suspend fun rebuildTaskSteps(steps: List<Step>, task: Task) {
         val existingSteps = stepDao.getStepsOfTask(task.id)
 
+        // Ensure all steps belong to the same task
         val newSteps = steps.map { step ->
             if (step.taskId != task.id) {
                 throw IllegalArgumentException("Step '${step.name}' with id ${step.id} does not belong to task '${task.name}', with id ${task.id}")

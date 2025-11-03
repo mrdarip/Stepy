@@ -25,7 +25,7 @@ interface TaskDao {
      * @param taskId The ID of the task whose steps are to be retrieved.
      * @return A list of [StepEntity] representing the active steps of the task.
      */
-    @Query("SELECT * FROM steps WHERE taskId = :taskId AND unused = 0 ORDER BY position ASC")
+    @Query("SELECT * FROM steps WHERE taskId = :taskId AND position IS NOT NULL ORDER BY position ASC")
     suspend fun getStepsOfTask(taskId: Int): List<StepEntity>
 
     @Upsert
