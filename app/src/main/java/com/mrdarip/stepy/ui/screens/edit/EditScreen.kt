@@ -73,7 +73,12 @@ fun EditScreen(
                 onDelete = { step ->
                     viewModel.setSteps(
                         steps.toMutableList().apply {
+                            //reduce by one all the steps positions after the removed and remove the removed
                             remove(step)
+                            for (i in step.position?.until(size)!!) {
+                                val currentStep = get(i)
+                                set(i, currentStep.copy(position = currentStep.position?.minus(1)))
+                            }
                         }
                     )
                 }

@@ -20,11 +20,11 @@ class StepRepositoryImpl(
             step.toEntity()
         }
 
-        stepDao.upsertSteps(newSteps)
-
         val newStepIds = newSteps.map { it.id }.toSet()
         val unusedSteps = existingSteps.filter { it.id !in newStepIds }
 
         stepDao.setStepsAsUnused(unusedSteps.map { it.id })
+
+        stepDao.upsertSteps(newSteps)
     }
 }
