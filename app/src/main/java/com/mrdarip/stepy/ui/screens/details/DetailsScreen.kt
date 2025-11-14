@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.Button
@@ -32,11 +34,14 @@ fun DetailsScreen(
     onEditTaskClick: (Task) -> Unit
 ) {
     LifecycleResumeEffect(Unit) {
-        viewModel.loadTask()
+        viewModel.reloadTask()
         onPauseOrDispose { }
     }
 
     val task by viewModel.task.collectAsState()
+    val steps by viewModel.steps.collectAsState()
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,11 +59,21 @@ fun DetailsScreen(
         }
 
         task?.let { t ->
-            Text(text = "name = ${t.name}")
-            Text(text = "id = ${t.id}")
-            Button(onClick = { onExecuteTaskClick(t) }) {
-                Text("Execute")
+            Column() {
+                Text(text = "name = ${t.name}")
+                Button(onClick = { onExecuteTaskClick(t) }) {
+                    Text("Execute")
+                }
+                LazyColumn {
+                    itemsIndexed(steps) { index, step ->
+                        Text(text = "${index + 1}. ${step.name}")
+                    }
+
+                }
+
             }
+
+
         }
 
     }
