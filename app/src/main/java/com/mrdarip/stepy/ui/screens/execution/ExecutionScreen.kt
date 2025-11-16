@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,10 +50,21 @@ fun ExecutionScreen(
                         viewModel.completeExecution(onFinish)
                     }
                 },
-                enabled = currentExecution != null
+                enabled = currentExecution != null,
             ) {
                 Text(text = "Complete Step")
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            if (steps.size > 1) {
+                Text(text = "Next Steps")
+                LazyColumn {
+                    items(steps.drop(1)) { step ->
+                        Text(text = "- ${step.name}")
+                    }
+                }
+            }
+
         }
     }
 }
