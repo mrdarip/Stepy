@@ -40,7 +40,7 @@ fun ExecutionScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "Current Step: ${currentStep?.name}")
+            Text(text = "Current Step: ${currentStep?.name ?: "None"}")
 
             Spacer(modifier = Modifier.height(8.dp))
 
