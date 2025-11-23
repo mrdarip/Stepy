@@ -13,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mrdarip.stepy.R
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
 
@@ -52,12 +54,12 @@ fun ExecutionScreen(
                 },
                 enabled = currentExecution != null,
             ) {
-                Text(text = "Complete Step")
+                Text(text = stringResource(R.string.execution_complete_step))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
             if (steps.size > 1) {
-                Text(text = "Next Steps")
+                Text(text = stringResource(R.string.execution_title_next))
                 LazyColumn {
                     items(steps.drop(1)) { step ->
                         Text(text = "- ${step.name}")

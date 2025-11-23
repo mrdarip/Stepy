@@ -19,9 +19,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import com.mrdarip.stepy.R
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.screens.details.viewmodel.DetailsViewModel
@@ -62,7 +64,7 @@ fun DetailsScreen(
             Column() {
                 Text(text = "name = ${t.name}")
                 Button(onClick = { onExecuteTaskClick(t) }) {
-                    Text("Execute")
+                    Text(stringResource(R.string.details_button_execute))
                 }
                 LazyColumn {
                     itemsIndexed(steps) { index, step ->

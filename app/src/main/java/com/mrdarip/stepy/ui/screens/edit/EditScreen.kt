@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mrdarip.stepy.R
 import com.mrdarip.stepy.domain.model.Step
 import com.mrdarip.stepy.ui.components.ReorderableStepsList
 import com.mrdarip.stepy.ui.screens.edit.viewmodel.EditViewModel
@@ -88,14 +90,14 @@ fun EditScreen(
 
         Row {
             Button(onClick = { onExit() }) {
-                Text("Exit")
+                Text(stringResource(R.string.edit_button_exit))
             }
 
             Button(onClick = {
                 viewModel.saveTask()
                 onExit()
             }) {
-                Text("Save")
+                Text(stringResource(R.string.edit_button_save))
             }
         }
     }

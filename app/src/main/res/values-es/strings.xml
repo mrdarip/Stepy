@@ -3,4 +3,9 @@
     <string name="start">Empezar</string>
     <string name="back">Atras</string>
     <string name="return_str">Volver</string>
+    <string name="execution_complete_step">Completar paso</string>
+    <string name="execution_title_next">Siguientes pasos</string>
+    <string name="details_button_execute">Ejecutar</string>
+    <string name="edit_button_save">Guardar</string>
+    <string name="edit_button_exit">Cancelar</string>
 </resources>
