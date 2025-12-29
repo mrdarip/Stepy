@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -78,11 +77,7 @@ fun HomeScreen(
 
         LazyRow {
             items(tasks) { task ->
-                Button(
-                    onClick = { onExecuteTaskClick(task) }
-                ) {
-                    Text(task.name)
-                }
+                TaskCard(task) { onExecuteTaskClick(task) }
             }
         }
 
@@ -106,10 +101,8 @@ fun HomeScreen(
 
         LazyRow {
             items(routines) { routine ->
-                Button(
-                    onClick = { }
-                ) {
-                    Text(routine.name)
+                RoutineCard(routine) {
+                    //TODO: Navigate to routine execution screen
                 }
             }
         }
