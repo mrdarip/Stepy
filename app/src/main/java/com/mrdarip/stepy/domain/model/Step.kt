@@ -5,4 +5,5 @@ data class Step(
     val name: String,
     val position: Int?,
     val taskId: Long,
+    val skippable: Boolean
 )

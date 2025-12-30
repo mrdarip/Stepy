@@ -11,7 +11,8 @@ fun ExecutionEntity.toDomain(): Execution {
         stepId = stepId,
         position = position,
         start = start,
-        end = end
+        end = end,
+        skipped = skipped
     )
 }
 
@@ -23,6 +24,7 @@ fun Execution.toEntity(): ExecutionEntity {
         stepId = stepId,
         position = position,
         start = start,
-        end = end
+        end = end,
+        skipped = skipped
     )
 }

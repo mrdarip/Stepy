@@ -26,5 +26,7 @@ import androidx.room.Index
 )
 data class RoutineTaskCR(
     val routineId: Long,
-    val taskId: Int
+    val taskId: Int,
+    val position: Int,
+    val skippable: Boolean
 )

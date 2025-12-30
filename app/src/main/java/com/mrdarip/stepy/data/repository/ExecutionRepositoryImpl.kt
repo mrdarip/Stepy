@@ -29,7 +29,8 @@ class ExecutionRepositoryImpl(
             position = step.position,
             start = System.currentTimeMillis() / 1000L,
             end = System.currentTimeMillis() / 1000L,
-            parentRoutineId = routine?.id
+            parentRoutineId = routine?.id,
+            skipped = false
         )
     }
 }

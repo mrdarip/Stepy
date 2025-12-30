@@ -7,5 +7,6 @@ data class Execution(
     val stepId: Long,
     val position: Int,
     val start: Long,
-    val end: Long
+    val end: Long,
+    val skipped: Boolean
 )

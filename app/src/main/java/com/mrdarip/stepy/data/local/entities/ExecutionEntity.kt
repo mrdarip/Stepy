@@ -35,4 +35,5 @@ data class ExecutionEntity(
     val position: Int,
     val start: Long,
     val end: Long,
+    val skipped: Boolean
 )
