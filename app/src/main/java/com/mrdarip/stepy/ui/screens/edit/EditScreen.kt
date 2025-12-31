@@ -49,7 +49,7 @@ fun EditScreen(
                 onClick = {
                     viewModel.setSteps(
                         steps.toMutableList().apply {
-                            add(Step(0, "New Step", steps.size, task?.id ?: 0))
+                            add(Step(0, "New Step", steps.size, task?.id ?: 0, false))
                         }
                     )
                 },
