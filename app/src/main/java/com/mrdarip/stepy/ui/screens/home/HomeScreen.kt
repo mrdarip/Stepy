@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -65,30 +66,6 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                "Tasks",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Medium
-            )
-
-            IconButton(onClick = { viewModel.addTask("New Task") }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Task")
-            }
-        }
-
-        LazyRow {
-            items(tasks) { task ->
-                TaskCard(task) { onExecuteTaskClick(task) }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
                 "Routines",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Medium
@@ -104,6 +81,30 @@ fun HomeScreen(
                 RoutineCard(routine) {
                     //TODO: Navigate to routine execution screen
                 }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                "Tasks",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Medium
+            )
+
+            IconButton(onClick = { viewModel.addTask("New Task") }) {
+                Icon(Icons.Default.Add, contentDescription = "Add Task")
+            }
+        }
+
+        LazyColumn {
+            items(tasks) { task ->
+                TaskCard(task, { onExecuteTaskClick(task) })
             }
         }
     }
