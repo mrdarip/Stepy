@@ -9,5 +9,6 @@ import androidx.room.PrimaryKey
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
-    var name: String
+    var name: String,
+    var favorite: Boolean = false
 )
