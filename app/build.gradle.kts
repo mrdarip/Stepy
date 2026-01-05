@@ -95,6 +95,9 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
 
+    implementation(libs.androidx.material.icons.extended)
+
+
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
