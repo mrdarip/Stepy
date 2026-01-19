@@ -46,12 +46,12 @@ fun ExecutionScreen(
                 text = "${task?.name}",
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium
             )
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Current Step: ${currentStep?.name ?: "None"}")
+            Text(text = currentStep?.name ?: "...", style = MaterialTheme.typography.titleLarge)
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -62,11 +62,13 @@ fun ExecutionScreen(
                     }
                 },
                 enabled = currentExecution != null,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(R.string.execution_complete_step))
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
             if (steps.size > 1) {
                 Text(text = stringResource(R.string.execution_title_next))
                 LazyColumn {
