@@ -1,24 +1,28 @@
 package com.mrdarip.stepy.ui.screens.edit
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mrdarip.stepy.R
 import com.mrdarip.stepy.domain.model.Step
+import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.components.ReorderableStepsList
 import com.mrdarip.stepy.ui.screens.edit.viewmodel.EditViewModel
 
@@ -28,12 +32,24 @@ fun EditScreen(
 ) {
     val task by viewModel.task.collectAsState()
     val steps by viewModel.steps.collectAsState()
-
     Column(
         modifier = Modifier
             .fillMaxHeight()
             .padding(16.dp)
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            BackButton(onExit)
+            IconButton(onClick = {
+                viewModel.saveTask()
+                onExit()
+            }) {
+                Icon(imageVector = Icons.Default.Save, contentDescription = "Save Task")
+            }
+        }
         TextField(
             enabled = task != null,
             value = task?.name ?: "",
@@ -85,20 +101,6 @@ fun EditScreen(
                     )
                 }
             )
-        }
-
-
-        Row {
-            Button(onClick = { onExit() }) {
-                Text(stringResource(R.string.edit_button_exit))
-            }
-
-            Button(onClick = {
-                viewModel.saveTask()
-                onExit()
-            }) {
-                Text(stringResource(R.string.edit_button_save))
-            }
         }
     }
 }
