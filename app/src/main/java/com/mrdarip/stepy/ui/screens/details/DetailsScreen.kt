@@ -63,7 +63,7 @@ fun DetailsScreen(
         task?.let { t ->
             Column() {
                 Text(text = "name = ${t.name}")
-                Button(onClick = { onExecuteTaskClick(t) }) {
+                Button(onClick = { onExecuteTaskClick(t) }, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.details_button_execute))
                 }
                 LazyColumn {
