@@ -28,6 +28,24 @@ interface TaskDao {
     @Query("SELECT * FROM steps WHERE taskId = :taskId AND position IS NOT NULL ORDER BY position ASC")
     suspend fun getStepsOfTask(taskId: Int): List<StepEntity>
 
+    @Query(
+        """
+        SELECT
+          avg(e.`end` - e.start) 
+        FROM 
+          steps as s 
+          INNER JOIN executions as e ON s.id = e.stepId 
+        WHERE 
+          s.taskId = :taskId 
+          and s.position IS NOT NULL 
+        GROUP BY 
+          s.id 
+        ORDER BY 
+          s.position ASC
+    """
+    )
+    suspend fun getStepsStatsOfTask(taskId: Int): List<Int>
+
     @Upsert
     suspend fun upsertTask(task: TaskEntity)
 }
