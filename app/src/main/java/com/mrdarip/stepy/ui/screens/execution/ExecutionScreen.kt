@@ -22,6 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mrdarip.stepy.R
+import com.mrdarip.stepy.domain.model.Execution
+import com.mrdarip.stepy.domain.model.Step
+import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
 
@@ -29,10 +32,28 @@ import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
 fun ExecutionScreen(
     viewModel: ExecutionViewModel = hiltViewModel(), onBackClicked: () -> Unit, onFinish: () -> Unit
 ) {
+
     val task by viewModel.task.collectAsState()
     val steps by viewModel.steps.collectAsState()
     val currentExecution by viewModel.currentExecution.collectAsState()
 
+    ExecutionScreenBodyContent(
+        task,
+        steps,
+        currentExecution,
+        onBackClicked,
+        { viewModel.completeExecution(onFinish) }
+    )
+}
+
+@Composable
+fun ExecutionScreenBodyContent(
+    task: Task?,
+    steps: List<Step>,
+    currentExecution: Execution?,
+    onBackClicked: () -> Unit,
+    onStepCompletion: () -> Unit
+) {
     val currentStep = steps.firstOrNull()
 
     Column(
@@ -58,7 +79,7 @@ fun ExecutionScreen(
             Button(
                 onClick = {
                     currentStep?.let {
-                        viewModel.completeExecution(onFinish)
+                        onStepCompletion()
                     }
                 },
                 enabled = currentExecution != null,
