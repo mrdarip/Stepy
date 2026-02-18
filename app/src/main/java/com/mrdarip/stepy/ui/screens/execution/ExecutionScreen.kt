@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mrdarip.stepy.R
@@ -101,4 +102,21 @@ fun ExecutionScreenBodyContent(
 
         }
     }
+}
+
+@Preview
+@Composable
+private fun executionScreenPreview() {
+    ExecutionScreenBodyContent(
+        Task(name = "Sample Task"),
+        listOf(
+            Step(0, "item 1", 0, 0, false),
+            Step(1, "item 2", 1, 0, true),
+            Step(2, "item 3", 2, 0, false),
+            Step(3, "item 4", 3, 0, true)
+        ),
+        null,
+        {},
+        {}
+    )
 }
