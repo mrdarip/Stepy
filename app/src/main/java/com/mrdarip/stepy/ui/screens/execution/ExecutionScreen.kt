@@ -106,7 +106,7 @@ fun ExecutionScreenBodyContent(
 
 @Preview
 @Composable
-private fun executionScreenPreview() {
+private fun ExecutionScreenPreview() {
     ExecutionScreenBodyContent(
         Task(name = "Sample Task"),
         listOf(
