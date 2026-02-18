@@ -1,5 +1,6 @@
 package com.mrdarip.stepy.ui.screens.execution
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,34 +75,62 @@ fun ExecutionScreenBodyContent(
             )
         }
 
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = currentStep?.name ?: "...", style = MaterialTheme.typography.titleLarge)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = currentStep?.name ?: "...",
+                    style = MaterialTheme.typography.headlineLarge
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "At least: 5 min")
+                    Text(text = "At most: 10 min")
+                }
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+                LinearProgressIndicator(
+                    progress = { .0f },
+                    modifier = Modifier.fillMaxWidth(),
+                )
 
-            Button(
-                onClick = {
-                    currentStep?.let {
-                        onStepCompletion()
-                    }
-                },
-                enabled = currentExecution != null,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = stringResource(R.string.execution_complete_step))
-            }
+                Button(
+                    onClick = {
+                        currentStep?.let {
+                            onStepCompletion()
+                        }
+                    },
+                    enabled = currentExecution != null,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(R.string.execution_complete_step))
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            if (steps.size > 1) {
-                Text(text = stringResource(R.string.execution_title_next))
-                LazyColumn {
-                    items(steps.drop(1)) { step ->
-                        Text(text = "- ${step.name}")
+                if (steps.size > 1) {
+                    Text(text = stringResource(R.string.execution_title_next))
+                    LazyColumn {
+                        items(steps.drop(1)) { step ->
+                            Text(
+                                text = "- ${step.name}",
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
                     }
                 }
             }
 
+            Column {
+                HorizontalDivider()
+                Text(text = "ETA: 20:25", style = MaterialTheme.typography.titleMedium)
+            }
         }
     }
 }
@@ -110,7 +141,7 @@ private fun ExecutionScreenPreview() {
     ExecutionScreenBodyContent(
         Task(name = "Sample Task"),
         listOf(
-            Step(0, "item 1", 0, 0, false),
+            Step(0, "item 1, that causes overflow", 0, 0, false),
             Step(1, "item 2", 1, 0, true),
             Step(2, "item 3", 2, 0, false),
             Step(3, "item 4", 3, 0, true)
