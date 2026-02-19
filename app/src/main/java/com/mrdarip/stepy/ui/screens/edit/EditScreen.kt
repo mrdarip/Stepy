@@ -57,10 +57,11 @@ fun EditScreen(
                 viewModel.setTaskName(it)
             },
             label = { Text("TaskName") },
-            placeholder = { Text("Name") }
+            placeholder = { Text("Name") },
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Column(Modifier.weight(1f)) {
+        Column(Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
                     viewModel.setSteps(
