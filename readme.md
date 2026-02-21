@@ -3,7 +3,7 @@
 
 # Stepy
 
-A brief description of what this project does and who it's for 
+Android app for managing repeating actions and its steps for future time to complete estimation
 
 
 ## Features
