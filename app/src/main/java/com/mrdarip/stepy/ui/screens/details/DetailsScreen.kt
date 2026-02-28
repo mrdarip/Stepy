@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -62,8 +63,14 @@ fun DetailsScreen(
 
         task?.let { t ->
             Column() {
-                Text(text = "name = ${t.name}")
-                Button(onClick = { onExecuteTaskClick(t) }, modifier = Modifier.fillMaxWidth()) {
+                Column() {
+                    Text(text = t.name, style = MaterialTheme.typography.headlineLarge)
+                    Text("Finish by 12:00", style = MaterialTheme.typography.bodyMedium)
+                }
+                Button(
+                    onClick = { onExecuteTaskClick(t) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(stringResource(R.string.details_button_execute))
                 }
                 LazyColumn {
