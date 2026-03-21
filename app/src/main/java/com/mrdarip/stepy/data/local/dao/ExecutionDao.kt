@@ -19,6 +19,6 @@ interface ExecutionDao {
             LIMIT :count
         """
     )
-    fun getExecutionsOfSteps(stepsIds: List<Long>, count: Int): List<ExecutionEntity>
+    suspend fun getExecutionsOfSteps(stepsIds: List<Long>, count: Int): List<ExecutionEntity>
 
 }
