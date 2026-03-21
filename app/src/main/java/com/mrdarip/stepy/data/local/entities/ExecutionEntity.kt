@@ -5,6 +5,18 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+/**
+ * Execution entity in the database.
+ *
+ * @property id The unique identifier for the execution entity. Auto-generated
+ * @property parentRoutineId ID of the routine this execution belongs to. Null if not a routine execution
+ * @property parentExecutionId ID of the parent execution this execution is related to. Null if not a child execution (first execution)
+ * @property stepId ID of the step associated with this execution.
+ * @property position The position of this execution in the sequence.
+ * @property start The start time of the execution, represented as a timestamp in seconds
+ * @property end The end time of the execution, represented as a timestamp in seconds
+ * @property skipped A flag indicating whether the execution was skipped.
+ */
 @Entity(
     tableName = "executions",
     foreignKeys = [

@@ -10,9 +10,9 @@ private const val PERCENTILE_DROP = (1.0 - PERCENTILE) / 2.0
  * 
  * In the case of a collection of steps, the statistics are aggregated across all executions of those steps, providing insights into their typical durations and variability.
  *
- * @property lowerBoundETA The minimum duration recorded among the executions.
- * @property upperBoundETA The maximum duration recorded among the executions.
- * @property averageETA The arithmetic mean of all recorded durations.
+ * @property lowerBoundETA The minimum duration recorded among the executions, in seconds.
+ * @property upperBoundETA The maximum duration recorded among the executions, in seconds.
+ * @property averageETA The arithmetic mean of all recorded durations, in seconds.
  * @property sampleSize The total number of execution samples used to calculate these statistics.
  */
 data class StepStats(
