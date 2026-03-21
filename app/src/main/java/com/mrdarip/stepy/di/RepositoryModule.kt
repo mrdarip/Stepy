@@ -24,8 +24,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTaskRepository(taskDao: TaskDao): TaskRepository {
-        return TaskRepositoryImpl(taskDao)
+    fun provideTaskRepository(taskDao: TaskDao, executionDao: ExecutionDao): TaskRepository {
+        return TaskRepositoryImpl(taskDao, executionDao)
     }
 
     @Provides
