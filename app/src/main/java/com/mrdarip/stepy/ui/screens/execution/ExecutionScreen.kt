@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mrdarip.stepy.R
 import com.mrdarip.stepy.domain.model.Execution
 import com.mrdarip.stepy.domain.model.Step
+import com.mrdarip.stepy.domain.model.StepStats
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
@@ -38,15 +39,20 @@ fun ExecutionScreen(
 ) {
 
     val task by viewModel.task.collectAsState()
-    val steps by viewModel.steps.collectAsState()
+    val stepsWithStats by viewModel.steps.collectAsState()
     val currentExecution by viewModel.currentExecution.collectAsState()
+
+    val steps = stepsWithStats.map { it.step }
+    val currentExecutionStats = stepsWithStats.firstOrNull()?.stats ?: StepStats()
+
 
     ExecutionScreenBodyContent(
         task,
         steps,
         currentExecution,
         onBackClicked,
-        { viewModel.completeExecution(onFinish) }
+        { viewModel.completeExecution(onFinish) },
+        currentExecutionStats
     )
 }
 
@@ -56,7 +62,8 @@ fun ExecutionScreenBodyContent(
     steps: List<Step>,
     currentExecution: Execution?,
     onBackClicked: () -> Unit,
-    onStepCompletion: () -> Unit
+    onStepCompletion: () -> Unit,
+    stepStats: StepStats
 ) {
     val currentStep = steps.firstOrNull()
 
@@ -90,8 +97,8 @@ fun ExecutionScreenBodyContent(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "At least: 5 min")
-                    Text(text = "At most: 10 min")
+                    Text(text = "At least: ${stepStats.lowerBoundETA} min")
+                    Text(text = "At most: ${stepStats.upperBoundETA} min")
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -148,6 +155,7 @@ private fun ExecutionScreenPreview() {
         ),
         null,
         {},
-        {}
+        {},
+        StepStats()
     )
 }

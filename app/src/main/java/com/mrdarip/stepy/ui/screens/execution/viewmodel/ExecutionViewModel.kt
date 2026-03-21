@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrdarip.stepy.domain.model.Execution
-import com.mrdarip.stepy.domain.model.Step
+import com.mrdarip.stepy.domain.model.StepWithStats
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.domain.repository.ExecutionRepository
 import com.mrdarip.stepy.domain.repository.TaskRepository
@@ -30,8 +30,8 @@ class ExecutionViewModel @Inject constructor(
     private val _task = MutableStateFlow<Task?>(null)
     val task: StateFlow<Task?> = _task.asStateFlow()
 
-    private val _steps = MutableStateFlow<List<Step>>(emptyList())
-    val steps: StateFlow<List<Step>> = _steps
+    private val _stepsWithStats = MutableStateFlow<List<StepWithStats>>(emptyList())
+    val steps: StateFlow<List<StepWithStats>> = _stepsWithStats
 
     private val _currentExecution = MutableStateFlow<Execution?>(null)
     val currentExecution: StateFlow<Execution?> = _currentExecution
@@ -49,18 +49,18 @@ class ExecutionViewModel @Inject constructor(
 
     private fun loadSteps(taskId: Int) {
         viewModelScope.launch {
-            _steps.value = taskRepository.getStepsOfTask(taskId)
+            _stepsWithStats.value = taskRepository.getStepsAndStatsOfTask(taskId, 50)
 
-            if (_steps.value.isNotEmpty()) {
+            if (_stepsWithStats.value.isNotEmpty()) {
                 _currentExecution.value = executionRepository.createExecutionNow(
-                    step = _steps.value.first()
+                    step = _stepsWithStats.value.first().step
                 )
             }
         }
     }
 
     fun completeExecution(onFinish: () -> Unit) {
-        _steps.value = _steps.value.drop(1)
+        _stepsWithStats.value = _stepsWithStats.value.drop(1)
 
         val completedExecution = _currentExecution.value!!.copy(
             end = System.currentTimeMillis() / 1000L
@@ -71,15 +71,15 @@ class ExecutionViewModel @Inject constructor(
                 completedExecution
             )
 
-            if (_steps.value.isNotEmpty()) {
+            if (_stepsWithStats.value.isNotEmpty()) {
                 _currentExecution.value = executionRepository.createExecutionNow(
-                    step = _steps.value.first(),
+                    step = _stepsWithStats.value.first().step,
                     parentExecution = completedExecution.copy(id = lastExecutionId)
                 )
             }
         }
 
-        if (_steps.value.isEmpty()) {
+        if (_stepsWithStats.value.isEmpty()) {
             onFinish()
         }
     }
