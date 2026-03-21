@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +30,7 @@ import com.mrdarip.stepy.domain.model.Step
 import com.mrdarip.stepy.domain.model.StepStats
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
+import com.mrdarip.stepy.ui.components.ReactiveProgressIndicator
 import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
 
 @Composable
@@ -102,10 +102,9 @@ fun ExecutionScreenBodyContent(
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
-                LinearProgressIndicator(
-                    progress = { .0f },
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                ReactiveProgressIndicator(currentExecution, stepStats)
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
                     onClick = {
