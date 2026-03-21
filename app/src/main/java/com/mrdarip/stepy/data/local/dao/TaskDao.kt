@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.mrdarip.stepy.data.local.entities.StepEntity
 import com.mrdarip.stepy.data.local.entities.TaskEntity
+import com.mrdarip.stepy.domain.model.Execution
 
 @Dao
 interface TaskDao {
@@ -30,21 +31,15 @@ interface TaskDao {
 
     @Query(
         """
-        SELECT
-          avg(e.`end` - e.start) 
-        FROM 
-          steps as s 
-          INNER JOIN executions as e ON s.id = e.stepId 
-        WHERE 
-          s.taskId = :taskId 
-          and s.position IS NOT NULL 
-        GROUP BY 
-          s.id 
-        ORDER BY 
-          s.position ASC
+        SELECT * FROM executions
+        WHERE stepId IN (
+            SELECT id FROM steps
+            WHERE taskId = :taskId
+            AND position IS NOT NULL
+        )
     """
     )
-    suspend fun getStepsStatsOfTask(taskId: Int): List<Int>
+    suspend fun getExecutionsOfTask(taskId: Int): List<Execution>
 
     @Upsert
     suspend fun upsertTask(task: TaskEntity)
