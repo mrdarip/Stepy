@@ -19,9 +19,7 @@ class ExecutionRepositoryImpl(
         parentExecution: Execution?,
         routine: Routine?
     ): Execution {
-        if (step.position == null) {
-            throw IllegalArgumentException("Step position cannot be null, you are trying to create an execution for an unused step!")
-        }
+        requireNotNull(step.position) { "Step position cannot be null, you are trying to create an execution for an unused step!" }
 
         return Execution(
             parentExecutionId = parentExecution?.parentExecutionId ?: parentExecution?.id,
