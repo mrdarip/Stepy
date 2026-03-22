@@ -19,13 +19,28 @@ import javax.inject.Inject
 class ExecutionViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val executionRepository: ExecutionRepository,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Load Route params
     private val _taskId: Int = checkNotNull(savedStateHandle["taskId"]) {
         "_taskId is required for ExecutionViewModel"
     }
+
+    // count of completed steps, stored for surviving process death
+    private var completedStepsCount: Int
+        get() = savedStateHandle["completed_count"] ?: 0
+        set(value) {
+            savedStateHandle["completed_count"] = value
+        }
+
+    // execution start time, stored for surviving process death
+    private var executingStepStart: Long
+        get() = savedStateHandle["executing_step_start"] ?: 0
+        set(value) {
+            savedStateHandle["executing_step_start"] = value
+        }
+
 
     private val _task = MutableStateFlow<Task?>(null)
     val task: StateFlow<Task?> = _task.asStateFlow()
@@ -49,38 +64,54 @@ class ExecutionViewModel @Inject constructor(
 
     private fun loadSteps(taskId: Int) {
         viewModelScope.launch {
-            _stepsWithStats.value = taskRepository.getStepsAndStatsOfTask(taskId, 50)
+            val allSteps = taskRepository.getStepsAndStatsOfTask(taskId, 20)
+            val remainingSteps = allSteps.drop(completedStepsCount)
+            _stepsWithStats.value = remainingSteps
 
-            if (_stepsWithStats.value.isNotEmpty()) {
-                _currentExecution.value = executionRepository.createExecutionNow(
-                    step = _stepsWithStats.value.first().step
-                )
+            // exit coroutine if no step to execute
+            val firstStep = remainingSteps.firstOrNull() ?: return@launch
+
+            // Restore start time if it exists, otherwise use "now"
+            val startTime = if (executingStepStart > 0L) {
+                executingStepStart
+            } else {
+                System.currentTimeMillis() / 1000L
             }
+
+            _currentExecution.value = executionRepository.createExecutionNow(
+                step = firstStep.step
+            ).copy(start = startTime)
         }
     }
 
     fun completeExecution(onFinish: () -> Unit) {
-        _stepsWithStats.value = _stepsWithStats.value.drop(1)
+        val currentExec = _currentExecution.value ?: return // Guard against null
 
-        val completedExecution = _currentExecution.value!!.copy(
+        completedStepsCount++
+        val remaining = _stepsWithStats.value.drop(1)
+        _stepsWithStats.value = remaining
+
+        val completedExecution = currentExec.copy(
             end = System.currentTimeMillis() / 1000L
         )
 
         viewModelScope.launch {
-            val lastExecutionId = executionRepository.addExecution(
-                completedExecution
-            )
+            val lastExecutionId = executionRepository.addExecution(completedExecution)
 
-            if (_stepsWithStats.value.isNotEmpty()) {
+            if (remaining.isNotEmpty()) {
+                val nextStartTime = System.currentTimeMillis() / 1000L
+                executingStepStart = nextStartTime // Save for next potential process death
+
                 _currentExecution.value = executionRepository.createExecutionNow(
-                    step = _stepsWithStats.value.first().step,
+                    step = remaining.first().step,
                     parentExecution = completedExecution.copy(id = lastExecutionId)
-                )
+                ).copy(start = nextStartTime)
+            } else {
+                completedStepsCount = 0 // Reset for next execution
+                executingStepStart = 0L // Reset start time
+                _currentExecution.value = null
+                onFinish()
             }
-        }
-
-        if (_stepsWithStats.value.isEmpty()) {
-            onFinish()
         }
     }
 }
