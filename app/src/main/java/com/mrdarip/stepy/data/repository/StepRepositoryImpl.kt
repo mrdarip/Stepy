@@ -24,7 +24,7 @@ class StepRepositoryImpl(
         val unusedSteps = existingSteps.filter { it.id !in newStepIds }
 
         stepDao.setStepsAsUnused(unusedSteps.map { it.id })
-
+        stepDao.negateStepsOf(task.id)
         stepDao.upsertSteps(newSteps)
     }
 }
