@@ -13,10 +13,19 @@ interface ExecutionDao {
 
     @Query(
         """
-            SELECT * FROM executions
-            WHERE stepId IN (:stepsIds)
-            ORDER BY start DESC -- most recent first
-            LIMIT :count
+        WITH ranked AS (
+            SELECT *,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY stepId
+                       ORDER BY start DESC
+                   ) AS rn
+            FROM executions
+            
+            where stepId in (:stepsIds)
+        )
+        SELECT *
+        FROM ranked
+        WHERE rn <= :count;
         """
     )
     suspend fun getExecutionsOfSteps(stepsIds: List<Long>, count: Int): List<ExecutionEntity>
