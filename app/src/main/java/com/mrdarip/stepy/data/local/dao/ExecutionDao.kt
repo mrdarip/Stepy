@@ -11,6 +11,16 @@ interface ExecutionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExecution(execution: ExecutionEntity): Long
 
+    /**
+     * Retrieves up to `count` most-recent executions for each step ID in `stepsIds`.
+     *
+     * For each provided `stepId`, returns at most `count` executions ordered by `start` descending (most recent first).
+     * The overall ordering of rows across different `stepId` values is not guaranteed.
+     *
+     * @param stepsIds The list of step IDs to fetch executions for.
+     * @param count The maximum number of most-recent executions to return per step ID.
+     * @return A list of ExecutionEntity containing at most `count` entries per step ID.
+     */
     @Query(
         """
         WITH ranked AS (
