@@ -91,10 +91,10 @@ fun ReorderableStepsList(
                             IconButton(
                                 modifier = Modifier.draggableHandle(
                                     onDragStarted = {
-                                        //hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
                                     },
                                     onDragStopped = {
-                                        //hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                     },
                                 ),
                                 onClick = {},
@@ -141,6 +141,7 @@ fun ReorderableStepsList(
                                 IconButton(onClick = { isEditing = true }) {
                                     Icon(Icons.Rounded.Edit, contentDescription = "Edit")
                                 }
+                            } else {
                                 IconButton(onClick = { onDelete(step) }) {
                                     Icon(Icons.Rounded.Delete, contentDescription = "Delete")
                                 }
