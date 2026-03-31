@@ -32,6 +32,8 @@ import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.components.ReactiveProgressIndicator
 import com.mrdarip.stepy.ui.screens.execution.viewmodel.ExecutionViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ExecutionScreen(
@@ -45,6 +47,13 @@ fun ExecutionScreen(
     val steps = stepsWithStats.map { it.step }
     val currentExecutionStats = stepsWithStats.firstOrNull()?.stats ?: StepStats()
 
+    val secondsToEnd = stepsWithStats.sumOf { it.stats.averageETA }
+
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    val finalEta: String = LocalDateTime.now().plusSeconds(secondsToEnd).format(formatter)
+
+
+
 
     ExecutionScreenBodyContent(
         task,
@@ -52,7 +61,8 @@ fun ExecutionScreen(
         currentExecution,
         onBackClicked,
         { viewModel.completeExecution(onFinish) },
-        currentExecutionStats
+        currentExecutionStats,
+        finalEta
     )
 }
 
@@ -63,7 +73,8 @@ fun ExecutionScreenBodyContent(
     currentExecution: Execution?,
     onBackClicked: () -> Unit,
     onStepCompletion: () -> Unit,
-    stepStats: StepStats
+    stepStats: StepStats,
+    finalEta: String = "20:25"
 ) {
     val currentStep = steps.firstOrNull()
 
@@ -135,7 +146,7 @@ fun ExecutionScreenBodyContent(
 
             Column {
                 HorizontalDivider()
-                Text(text = "ETA: 20:25", style = MaterialTheme.typography.titleMedium)
+                Text(text = "ETA: $finalEta", style = MaterialTheme.typography.titleMedium)
             }
         }
     }
