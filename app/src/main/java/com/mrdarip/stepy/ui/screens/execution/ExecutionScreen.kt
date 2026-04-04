@@ -132,12 +132,15 @@ fun ExecutionScreenBodyContent(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 if (steps.size > 1) {
-                    Text(text = stringResource(R.string.execution_title_next))
+                    Text(
+                        text = stringResource(R.string.execution_title_next),
+                        style = MaterialTheme.typography.titleMedium
+                    )
                     LazyColumn {
                         items(steps.drop(1)) { step ->
                             Text(
                                 text = "- ${step.name}",
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         }
                     }
