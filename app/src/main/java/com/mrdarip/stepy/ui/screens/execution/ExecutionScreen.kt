@@ -99,7 +99,7 @@ fun ExecutionScreenBodyContent(
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = currentStep?.name ?: "...",
                     style = MaterialTheme.typography.headlineLarge
