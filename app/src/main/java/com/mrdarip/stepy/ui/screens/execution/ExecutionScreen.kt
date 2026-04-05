@@ -28,6 +28,7 @@ import com.mrdarip.stepy.R
 import com.mrdarip.stepy.domain.model.Execution
 import com.mrdarip.stepy.domain.model.Step
 import com.mrdarip.stepy.domain.model.StepStats
+import com.mrdarip.stepy.domain.model.StepWithStats
 import com.mrdarip.stepy.domain.model.Task
 import com.mrdarip.stepy.ui.components.BackButton
 import com.mrdarip.stepy.ui.components.ReactiveProgressIndicator
@@ -44,7 +45,6 @@ fun ExecutionScreen(
     val stepsWithStats by viewModel.steps.collectAsState()
     val currentExecution by viewModel.currentExecution.collectAsState()
 
-    val steps = stepsWithStats.map { it.step }
     val currentExecutionStats = stepsWithStats.firstOrNull()?.stats ?: StepStats()
 
     val secondsToEnd = stepsWithStats.sumOf { it.stats.averageETA }
@@ -57,7 +57,7 @@ fun ExecutionScreen(
 
     ExecutionScreenBodyContent(
         task,
-        steps,
+        stepsWithStats.sortedByDescending { it.step.position },
         currentExecution,
         onBackClicked,
         { viewModel.completeExecution(onFinish) },
@@ -69,13 +69,15 @@ fun ExecutionScreen(
 @Composable
 fun ExecutionScreenBodyContent(
     task: Task?,
-    steps: List<Step>,
+    stepsWithStats: List<StepWithStats>,
     currentExecution: Execution?,
     onBackClicked: () -> Unit,
     onStepCompletion: () -> Unit,
     stepStats: StepStats,
     finalEta: String = "20:25"
 ) {
+    val steps = stepsWithStats.map { it.step }
+
     val currentStep = steps.firstOrNull()
 
     Column(
@@ -136,10 +138,17 @@ fun ExecutionScreenBodyContent(
                         text = stringResource(R.string.execution_title_next),
                         style = MaterialTheme.typography.titleMedium
                     )
+
+                    val upcomingSteps = stepsWithStats.drop(1)
+                    val cumulativeSeconds =
+                        upcomingSteps.scan(0L) { acc, stepWithStats -> acc + stepWithStats.stats.averageETA }
+                    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+
                     LazyColumn {
-                        items(steps.drop(1)) { step ->
+                        items(upcomingSteps.zip(cumulativeSeconds)) { (stepWithStats, cumSec) ->
+                            val etaTime = LocalDateTime.now().plusSeconds(cumSec).format(formatter)
                             Text(
-                                text = "- ${step.name}",
+                                text = "$etaTime - ${stepWithStats.step.name}",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -161,10 +170,10 @@ private fun ExecutionScreenPreview() {
     ExecutionScreenBodyContent(
         Task(name = "Sample Task"),
         listOf(
-            Step(0, "item 1, that causes overflow", 0, 0, false),
-            Step(1, "item 2", 1, 0, true),
-            Step(2, "item 3", 2, 0, false),
-            Step(3, "item 4", 3, 0, true)
+            StepWithStats(Step(0, "item 1, that causes overflow", 0, 0, false), StepStats()),
+            StepWithStats(Step(1, "item 2", 1, 0, true), StepStats()),
+            StepWithStats(Step(2, "item 3", 2, 0, false), StepStats()),
+            StepWithStats(Step(3, "item 4", 3, 0, true), StepStats())
         ),
         null,
         {},
