@@ -57,7 +57,7 @@ fun ExecutionScreen(
 
     ExecutionScreenBodyContent(
         task,
-        stepsWithStats.sortedByDescending { it.step.position },
+        stepsWithStats,
         currentExecution,
         onBackClicked,
         { viewModel.completeExecution(onFinish) },
