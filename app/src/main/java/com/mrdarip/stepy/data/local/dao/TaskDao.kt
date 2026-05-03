@@ -12,7 +12,7 @@ import com.mrdarip.stepy.domain.model.Execution
 @Dao
 interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertTask(step: TaskEntity)
+    suspend fun insertTask(step: TaskEntity): Long
 
     @Query("SELECT * FROM tasks")
     suspend fun getAllTasks(): List<TaskEntity>

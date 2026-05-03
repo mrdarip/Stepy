@@ -20,8 +20,9 @@ class TaskRepositoryImpl(
         return taskDao.getAllTasks().map { it.toDomain() }
     }
 
-    override suspend fun addTask(task: Task) {
-        taskDao.insertTask(task.toEntity())
+    override suspend fun addTask(task: Task): Task {
+        val taskId = taskDao.insertTask(task.toEntity())
+        return task.copy(id = taskId)
     }
 
     override suspend fun getTask(id: Int): Task {
