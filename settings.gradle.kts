@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Stepy"
 include(":app")
- 
+include(":wearos")
