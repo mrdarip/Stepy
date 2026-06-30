@@ -105,4 +105,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.reorderable)
+
+    implementation(libs.play.services.wearable)
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
 }
