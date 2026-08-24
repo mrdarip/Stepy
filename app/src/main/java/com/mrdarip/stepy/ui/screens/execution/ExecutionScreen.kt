@@ -108,8 +108,8 @@ fun ExecutionScreenBodyContent(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "At least: ${stepStats.lowerBoundETA} min")
-                    Text(text = "At most: ${stepStats.upperBoundETA} min")
+                    Text(text = "At least: ${stepStats.lowerBoundETA} secs")
+                    Text(text = "At most: ${stepStats.upperBoundETA} secs")
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
