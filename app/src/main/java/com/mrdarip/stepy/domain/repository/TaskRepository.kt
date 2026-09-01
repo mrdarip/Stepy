@@ -14,4 +14,5 @@ interface TaskRepository {
 
     suspend fun getExecutionsOfTask(taskId: Int): List<Execution>
     suspend fun getStepsAndStatsOfTask(taskId: Int, maxSampleSize: Int): List<StepWithStats>
+    suspend fun getRecentExecutedTasks(): List<Task>
 }

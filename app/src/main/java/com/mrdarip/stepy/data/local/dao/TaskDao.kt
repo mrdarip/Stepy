@@ -17,6 +17,27 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     suspend fun getAllTasks(): List<TaskEntity>
 
+    @Query(
+        """
+        SELECT t.*
+        FROM tasks AS t
+        ORDER BY
+            t.favorite DESC,
+            COALESCE(
+                (
+                    SELECT MAX(e.start)
+                    FROM steps AS s
+                    INNER JOIN executions AS e ON e.stepId = s.id
+                    WHERE s.taskId = t.id
+                      AND s.position = 0
+                      AND e.parentExecutionId IS NULL
+                ),
+                0 -- TODO: replace with task creation date
+            ) DESC
+    """
+    )
+    suspend fun getTasksSortByRecentExecution(): List<TaskEntity>
+
     @Query("SELECT * FROM tasks WHERE id = :id")
     suspend fun getTaskById(id: Int): TaskEntity
 

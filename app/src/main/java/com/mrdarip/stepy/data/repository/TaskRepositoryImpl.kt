@@ -20,6 +20,10 @@ class TaskRepositoryImpl(
         return taskDao.getAllTasks().map { it.toDomain() }
     }
 
+    override suspend fun getRecentExecutedTasks(): List<Task> {
+        return taskDao.getTasksSortByRecentExecution().map { it.toDomain() }
+    }
+
     override suspend fun addTask(task: Task): Task {
         val taskId = taskDao.insertTask(task.toEntity())
         return task.copy(id = taskId)
