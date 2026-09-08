@@ -15,6 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,6 +44,10 @@ fun ExecutionScreen(
     val task by viewModel.task.collectAsState()
     val stepsWithStats by viewModel.steps.collectAsState()
     val currentExecution by viewModel.currentExecution.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.setOnFinishCallback(onFinish)
+    }
 
     val steps = stepsWithStats.map { it.step }
     val currentExecutionStats = stepsWithStats.firstOrNull()?.stats ?: StepStats()
