@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mrdarip.stepy"
-        minSdk = 27
+        minSdk = 30
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -105,4 +105,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.reorderable)
+
+    implementation(libs.play.services.wearable)
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
 }

@@ -1,5 +1,6 @@
 package com.mrdarip.stepy.di
 
+import android.app.Application
 import com.mrdarip.stepy.data.local.dao.ExecutionDao
 import com.mrdarip.stepy.data.local.dao.RoutineDao
 import com.mrdarip.stepy.data.local.dao.StepDao
@@ -12,6 +13,7 @@ import com.mrdarip.stepy.domain.repository.ExecutionRepository
 import com.mrdarip.stepy.domain.repository.RoutineRepository
 import com.mrdarip.stepy.domain.repository.StepRepository
 import com.mrdarip.stepy.domain.repository.TaskRepository
+import com.mrdarip.stepy.wearable.ExecutionDataSync
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,5 +46,11 @@ object RepositoryModule {
     @Singleton
     fun provideStepRepository(stepDao: StepDao): StepRepository {
         return StepRepositoryImpl(stepDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExecutionDataSync(app: Application): ExecutionDataSync {
+        return ExecutionDataSync(app)
     }
 }

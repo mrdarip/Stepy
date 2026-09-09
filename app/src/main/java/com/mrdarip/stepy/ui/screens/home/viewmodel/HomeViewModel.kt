@@ -37,14 +37,16 @@ class HomeViewModel @Inject constructor(
 
     fun loadTasks() {
         viewModelScope.launch {
-            _tasks.value = taskRepository.getTasks()
+            _tasks.value = taskRepository.getRecentExecutedTasks()
         }
     }
 
-    fun addTask(name: String) {
+    fun addTask(name: String, onAdd: (Task) -> Unit) {
         viewModelScope.launch {
-            taskRepository.addTask(Task(name = name))
+            val task = taskRepository.addTask(Task(name = name))
             loadTasks()
+
+            onAdd(task)
         }
     }
 

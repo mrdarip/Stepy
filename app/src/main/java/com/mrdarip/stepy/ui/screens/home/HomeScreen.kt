@@ -97,7 +97,7 @@ fun HomeScreen(
                 fontWeight = FontWeight.Medium
             )
 
-            IconButton(onClick = { viewModel.addTask("New Task") }) {
+            IconButton(onClick = { viewModel.addTask("New Task", onExecuteTaskClick) }) {
                 Icon(Icons.Default.Add, contentDescription = "Add Task")
             }
         }
@@ -117,7 +117,7 @@ fun HomeScreenPreview() {
         HomeScreen(
             onExecuteTaskClick = { task ->
                 println("Task clicked: ${task.name}")
-            }
+            },
         )
     }
 }
