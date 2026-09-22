@@ -87,8 +87,7 @@ fun ExecutionScreenBodyContent(
     val currentStep = steps.firstOrNull()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             BackButton(onBackClicked)
@@ -130,9 +129,7 @@ fun ExecutionScreenBodyContent(
                         currentStep?.let {
                             onStepCompletion()
                         }
-                    },
-                    enabled = currentExecution != null,
-                    modifier = Modifier.fillMaxWidth()
+                    }, enabled = currentExecution != null, modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.execution_complete_step))
                 }
@@ -147,16 +144,24 @@ fun ExecutionScreenBodyContent(
 
                     val upcomingSteps = stepsWithStats.drop(1)
                     val cumulativeSeconds =
-                        upcomingSteps.scan(0L) { acc, stepWithStats -> acc + stepWithStats.stats.averageETA }
+                        upcomingSteps.scan(stepsWithStats[0].stats.averageETA) { acc, stepWithStats -> acc + stepWithStats.stats.averageETA }
                     val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
                     LazyColumn {
                         items(upcomingSteps.zip(cumulativeSeconds)) { (stepWithStats, cumSec) ->
                             val etaTime = LocalDateTime.now().plusSeconds(cumSec).format(formatter)
-                            Text(
-                                text = "$etaTime - ${stepWithStats.step.name}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Text(
+                                    text = etaTime,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(bottom = 12.dp)
+                                )
+                                Text(
+                                    text = stepWithStats.step.name,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(top = 12.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -174,16 +179,11 @@ fun ExecutionScreenBodyContent(
 @Composable
 private fun ExecutionScreenPreview() {
     ExecutionScreenBodyContent(
-        Task(name = "Sample Task"),
-        listOf(
-            StepWithStats(Step(0, "item 1, that causes overflow", 0, 0, false), StepStats()),
-            StepWithStats(Step(1, "item 2", 1, 0, true), StepStats()),
-            StepWithStats(Step(2, "item 3", 2, 0, false), StepStats()),
-            StepWithStats(Step(3, "item 4", 3, 0, true), StepStats())
-        ),
-        null,
-        {},
-        {},
-        StepStats()
+        Task(name = "Sample Task"), listOf(
+        StepWithStats(Step(0, "item 1, that causes overflow", 0, 0, false), StepStats()),
+        StepWithStats(Step(1, "item 2", 1, 0, true), StepStats()),
+        StepWithStats(Step(2, "item 3", 2, 0, false), StepStats()),
+        StepWithStats(Step(3, "item 4", 3, 0, true), StepStats())
+    ), null, {}, {}, StepStats()
     )
 }
